@@ -8,7 +8,10 @@ local RenderStepped = RunService.RenderStepped;
 local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
 
+local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
+
 local ScreenGui = Instance.new('ScreenGui');
+ProtectGui(ScreenGui);
 
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global;
 ScreenGui.Parent = CoreGui;
@@ -491,6 +494,25 @@ do
             Image = 'rbxassetid://4155801252';
             Parent = SatVibMapInner;
         });
+
+        local CursorOuter = Library:Create('ImageLabel', {
+            AnchorPoint = Vector2.new(0.5, 0.5);
+            Size = UDim2.new(0, 6, 0, 6);
+            BackgroundTransparency = 1;
+            Image = 'http://www.roblox.com/asset/?id=9619665977';
+            ImageColor3 = Color3.new(0, 0, 0);
+            ZIndex = 19;
+            Parent = SatVibMap;
+        });
+
+        local CursorInner = Library:Create('ImageLabel', {
+            Size = UDim2.new(0, CursorOuter.Size.X.Offset - 2, 0, CursorOuter.Size.Y.Offset - 2);
+            Position = UDim2.new(0, 1, 0, 1);
+            BackgroundTransparency = 1;
+            Image = 'http://www.roblox.com/asset/?id=9619665977';
+            ZIndex = 20;
+            Parent = CursorOuter;
+        })
 
         local HueSelectorOuter = Library:Create('Frame', {
             BorderColor3 = Color3.new(0, 0, 0);
