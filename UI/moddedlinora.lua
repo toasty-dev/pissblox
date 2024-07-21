@@ -8,10 +8,7 @@ local RenderStepped = RunService.RenderStepped;
 local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
 
-local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
-
 local ScreenGui = Instance.new('ScreenGui');
-ProtectGui(ScreenGui);
 
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global;
 ScreenGui.Parent = CoreGui;
@@ -28,11 +25,11 @@ local Library = {
 
     HudRegistry = {};
 
-    FontColor = Color3.fromRGB(255, 255, 255);
-    MainColor = Color3.fromRGB(28, 28, 28);
-    BackgroundColor = Color3.fromRGB(20, 20, 20);
-    AccentColor = Color3.fromRGB(0, 85, 255);
-    OutlineColor = Color3.fromRGB(50, 50, 50);
+    FontColor = Color3.fromRGB(206, 207, 233);
+    MainColor = Color3.fromRGB(25, 26, 32);
+    BackgroundColor = Color3.fromRGB(26, 28, 34);
+    AccentColor = Color3.fromRGB(136, 156, 195);
+    OutlineColor = Color3.fromRGB(56, 55, 70);
     RiskColor = Color3.fromRGB(255, 50, 50),
 
     Black = Color3.new(0, 0, 0);
@@ -495,25 +492,6 @@ do
             Parent = SatVibMapInner;
         });
 
-        local CursorOuter = Library:Create('ImageLabel', {
-            AnchorPoint = Vector2.new(0.5, 0.5);
-            Size = UDim2.new(0, 6, 0, 6);
-            BackgroundTransparency = 1;
-            Image = 'http://www.roblox.com/asset/?id=9619665977';
-            ImageColor3 = Color3.new(0, 0, 0);
-            ZIndex = 19;
-            Parent = SatVibMap;
-        });
-
-        local CursorInner = Library:Create('ImageLabel', {
-            Size = UDim2.new(0, CursorOuter.Size.X.Offset - 2, 0, CursorOuter.Size.Y.Offset - 2);
-            Position = UDim2.new(0, 1, 0, 1);
-            BackgroundTransparency = 1;
-            Image = 'http://www.roblox.com/asset/?id=9619665977';
-            ZIndex = 20;
-            Parent = CursorOuter;
-        })
-
         local HueSelectorOuter = Library:Create('Frame', {
             BorderColor3 = Color3.new(0, 0, 0);
             Position = UDim2.new(0, 208, 0, 25);
@@ -813,8 +791,6 @@ do
             if TransparencyBoxInner then
                 TransparencyBoxInner.BackgroundColor3 = ColorPicker.Value;
             end;
-
-            CursorOuter.Position = UDim2.new(ColorPicker.Sat, 0, 1 - ColorPicker.Vib, 0);
 
             HueBox.Text = '#' .. ColorPicker.Value:ToHex()
             RgbBox.Text = table.concat({ math.floor(ColorPicker.Value.R * 255), math.floor(ColorPicker.Value.G * 255), math.floor(ColorPicker.Value.B * 255) }, ', ')
@@ -3435,33 +3411,6 @@ function Library:CreateWindow(...)
         Modal = false;
         Parent = ScreenGui;
     });
-
-    function Library.Toggle()
-        Outer.Visible = not Outer.Visible;
-        ModalElement.Modal = Outer.Visible;
-
-        local oIcon = Mouse.Icon;
-        local State = InputService.MouseIconEnabled;
-
-        local Cursor = Drawing.new('Triangle');
-        Cursor.Thickness = 1;
-        Cursor.Filled = true;
-
-        while Outer.Visible and ScreenGui.Parent do
-            local mPos = InputService:GetMouseLocation()
-
-            Cursor.Color = Library.AccentColor;
-            Cursor.PointA = Vector2.new(mPos.X, mPos.Y);
-            Cursor.PointB = Vector2.new(mPos.X, mPos.Y) + Vector2.new(6, 14);
-            Cursor.PointC = Vector2.new(mPos.X, mPos.Y) + Vector2.new(-6, 14);
-
-            Cursor.Visible = not InputService.MouseIconEnabled;
-
-            RenderStepped:Wait();
-        end;
-
-        Cursor:Remove();
-    end
 
     Library:GiveSignal(InputService.InputBegan:Connect(function(Input, Processed)
         if type(Library.ToggleKeybind) == 'table' and Library.ToggleKeybind.Type == 'KeyPicker' then
