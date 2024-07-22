@@ -141,7 +141,6 @@ local SaveManager = {} do
 	function SaveManager:BuildFolderTree()
 		local paths = {
 			self.Folder,
-			self.Folder .. '/themes',
 			self.Folder .. '/settings'
 		}
 
