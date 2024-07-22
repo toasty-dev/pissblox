@@ -131,9 +131,17 @@ local SaveManager = {} do
 		return true
 	end
 
+	function SaveManager:IgnoreThemeSettings()
+		self:SetIgnoreIndexes({ 
+			"BackgroundColor", "MainColor", "AccentColor", "OutlineColor", "FontColor", -- themes
+			"ThemeManager_ThemeList", 'ThemeManager_CustomThemeList', 'ThemeManager_CustomThemeName', -- themes
+		})
+	end
+
 	function SaveManager:BuildFolderTree()
 		local paths = {
 			self.Folder,
+			self.Folder .. '/themes',
 			self.Folder .. '/settings'
 		}
 
@@ -193,7 +201,7 @@ local SaveManager = {} do
 	function SaveManager:BuildConfigSection(tab)
 		assert(self.Library, 'Must set SaveManager.Library')
 
-		local section = tab:AddRightGroupbox('Configuration')
+		local section = tab:AddLeftGroupbox('Configuration')
 
 		section:AddInput('SaveManager_ConfigName',    { Text = 'Config name' })
 		section:AddDropdown('SaveManager_ConfigList', { Text = 'Config list', Values = self:RefreshConfigList(), AllowNull = true })
