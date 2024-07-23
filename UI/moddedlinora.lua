@@ -3444,7 +3444,7 @@ function Library:CreateWindow(...)
         local State = InputService.MouseIconEnabled;
 
         local Cursor = Drawing.new('Triangle');
-        Cursor.Thickness = 10;
+        Cursor.Thickness = 3;
         Cursor.Filled = true;
 
         while Outer.Visible and ScreenGui.Parent do
